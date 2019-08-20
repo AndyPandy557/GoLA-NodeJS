@@ -1,0 +1,163 @@
+<html>
+
+<!DOCTYPE html>
+<html style="background-position: bottom;">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Weather</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alfa+Slab+One">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta+Stencil">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Antic">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monoton">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="assets/css/styles.min.css">
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('button.addButton').click( function() {
+                $('form.addweather').submit();
+            });
+            $('button.updateButton').click( function() {
+                $('form.updateweather').submit();
+            });
+        });
+    </script>
+</head>
+
+<body class="text-center" style="background-size: cover;background-repeat: no-repeat;background-position: top;background-image: url(&quot;assets/img/brownCity.jpg&quot;);">
+
+<ul class="nav nav-tabs nav-fill text-center" style="width: 900;height: 47px;margin: 5px;padding: 0px;background-position: left;">
+    <li class="nav-item" style="width: 280px;"><a class="nav-link" href="#"></a></li>
+    <li class="nav-item"><a class="nav-link active" href="index.html"><strong>Home</strong></a></li>
+    <li class="nav-item"><a class="nav-link" href="ZipCode" style="color: rgb(44,76,111);"><strong>Zip Codes</strong></a></li>
+    <li class="nav-item"><a class="nav-link" href="Weather" style="color: rgb(44,76,111);"><strong>Weather</strong></a></li>
+    <li class="nav-item"><a class="nav-link" href="SocialLocation" style="color: rgb(44,76,111);"><strong>Social Locations</strong></a></li>
+    <li class="nav-item"><a class="nav-link" href="HistoricalEvent" style="color: rgb(44,76,111);"><strong>Historical Events</strong></a></li>
+    <li class="nav-item" style="width: 280px;"><a class="nav-link" href="#"></a></li>
+
+</ul>
+<!-- End: Navigation with Search -->
+<!-- Start: 1 Row 3 Columns -->
+<div>
+    <div class="row">
+        <div class="col">
+            <h1 style="padding: 30px;margin: 10;">Weather</h1>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-8 col-xl-4 offset-xl-0">
+                <div><a class="btn btn-primary" data-toggle="collapse" aria-expanded="true" aria-controls="collapse-2" role="button" href="#collapse-2">Hide/Show Table</a>
+                    <div class="collapse show" id="collapse-2">
+                        <div class="table-responsive" >
+                            <!-- HANDLEBARS TEMPLATED DISPLAY OF WEATHER OBJECTS -->
+                            <table id="displayTable">
+                                <thead>
+                                <th>Weather ID</th>
+                                <th>Current Temperature </th>
+                                <th>Barometric Pressure</th>
+                                <th>Wind (miles per hour)</th>
+                                </thead>
+                                <tbody>
+                                {{#each Weather}}
+                                    <tr>
+
+                                        <td>{{weatherID}}</td>
+                                        <td>{{currTemp}}</td>
+                                        <td>{{barometricPressure}}</td>
+                                        <td>{{windMphs}}</td>
+                                    </tr>
+                                {{/each}}
+                                </tbody>
+                            </table>
+                            </table>
+                        </div>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" style="font-size: 25px;"></div>
+        </div>
+    </div>
+</div>
+<!-- End: 1 Row 3 Columns -->
+<!-- Start: 1 Row 3 Columns -->
+<div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Start: addZipCode -->
+                <div class="text-center box" style="height: 417;"><i class="material-icons icon" style="color: rgb(0,0,0);font-size: 60px;">library_add</i>
+                    <p><strong>Add Weather</strong></p><a href="#" class="learn-more"></a></div>
+
+                <!--ADD A ZIP CODE-->
+
+                <form id="addweather" action="/Weather/add" method="post" class="addweather">
+                    Temperature: <input type="int" name="currTemp" placeholder="Temperature"><br>
+                    <br>
+                    Barometric Pressure: <input type="text" name="barometricPressure" placeholder="Barometric Pressure"><br>
+                    <br>
+                    Wind (miles per hour): <input type="text" name="windMphs" placeholder="Wind Miles Per Hour"><br>
+                </select><br>
+                <!--submit button-->
+                <br>
+                    <button type="submit" class="btn btn-primary addButton" value="Submit"> Submit </button>
+                </form>
+                <br/>
+
+            </div>
+            <div class="col-md-6">
+                <!-- Start: updateZip -->
+                <div class="box" style="height: 475;padding: 5px;margin: 0px;"><i class="material-icons icon" style="color: rgb(0,0,0);font-size: 60px;">edit</i>
+                    <p><strong>Update Weather</strong></p>
+                    <div><!--<a class="btn btn-primary" data-toggle="collapse" aria-expanded="true" aria-controls="collapse-3" role="button" href="#collapse-3">Open/Close--></a>
+
+                        <form id="updateweather" action="/Weather/update" method="post" class="updateweather">
+                            Weather ID: <input type="int" name="weatherID" placeholder="Existing Weather ID"><br>
+                            *required
+                            <br>
+                        Temperature: <input type="int" name="currTemp" placeholder="Temperature"><br>
+                            <br>
+                        Barometric Pressure: <input type="text" name="barometricPressure" placeholder="Barometric Pressure"><br>
+                            <br>
+                            Wind (miles per hour): <input type="text" name="windMphs" placeholder="Wind Miles Per Hour"><br>
+
+                            <br>
+                            <button type="submit" class="btn btn-primary updateButton" value="Submit" > Submit </button>
+                        </form>
+
+                    </div><a href="#" class="learn-more"></a></div>
+                <!-- End: updateZip -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: 1 Row 3 Columns -->
+<!-- Start: 1 Row 3 Columns -->
+<div>
+    <div class="container"></div>
+</div>
+<!-- End: 1 Row 3 Columns -->
+<!-- Start: 1 Row 3 Columns -->
+<div></div>
+<!-- End: 1 Row 3 Columns -->
+<!-- Start: 1 Row 3 Columns -->
+<div></div>
+<!-- End: 1 Row 3 Columns -->
+<!-- Start: 1 Row 3 Columns -->
+<div></div>
+<!-- End: 1 Row 3 Columns -->
+<!-- Start: 1 Row 3 Columns -->
+<div></div>
+<!-- End: 1 Row 3 Columns -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+

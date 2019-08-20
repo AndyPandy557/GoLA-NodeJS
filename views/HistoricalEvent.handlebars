@@ -1,0 +1,267 @@
+<html>
+<script >
+/*
+For SEARCH This function takes the front end requests and manipulates the DOM to display the results.
+
+*/
+    function searchZip() {
+        var userString  = document.getElementById('searchString').value;
+
+        $.post('http://localhost:3040/ZipCode/zipsearch',
+                {
+                    name: userString,
+                },
+                function(data, status){
+                    console.log("This is the first size of data"+ data.ZipCode.length)
+                    var dataLength = data.ZipCode.length;
+                    var displayTable = document.getElementById("displayTable").rows.length;
+                    console.log(displayTable)
+                    /*reverse loop to delete the table */
+                    var i;
+                    for (i = displayTable-1; i > 0; i--) {
+                        document.getElementById("displayTable").deleteRow(i);
+                    }
+
+                    var table = document.getElementById("displayTable");
+                    var j;
+                    for (j = 0; j < dataLength; j++) {
+                        console.log ("interator "+j);
+                        var row = table.insertRow(j+1);
+                        var cell1 = row.insertCell(0);
+                        var cell2 = row.insertCell(1);
+                        var cell3 = row.insertCell(2);
+
+                        cell1.innerHTML = data.ZipCode[j].zipID.toString();
+                        cell2.innerHTML = data.ZipCode[j].areaName.toString();
+                        cell3.innerHTML = data.ZipCode[j].weatherArea
+
+                    }
+
+                });
+        }
+
+        /*
+        This function takes the weatherArea number and inputs into the ZipCode value. Since it will come from a pre-populated dropdown, the Weather will have to be generated first
+        */
+         function inputHistoricalEventValue() {
+            var x = document.getElementById("zipSelectAdd").value;
+            data.HistoricalEvent.zipRegion.value = x;
+        }
+
+        function inputSocialLocationValue() {
+            var x = document.getElementById("zipSelectAdd").value;
+            data.SocialLocation.zipRegion.value = x;
+            var y = document.getElementById("HistEvent").value;
+            data.EventRegion.histEventID.value = y;
+        }
+
+
+</script>
+
+<!-- START HTML-->
+
+<!DOCTYPE html>
+<html style="background-position: bottom;">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Historical Event</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alfa+Slab+One">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta+Stencil">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Antic">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monoton">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="assets/css/styles.min.css">
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('button.addButton').click( function() {
+                $('form.addhistoricalevent').submit();
+            });
+            $('button.updateButton').click( function() {
+                $('form.updatehistoricalevent').submit();
+            });
+
+            $('button.deleteButton').click( function() {
+                $('form.deletezip').submit();
+            });
+        });
+    </script>
+</head>
+
+<body class="text-center" style="background-size: cover;background-repeat: no-repeat;background-position: top;background-image: url(&quot;assets/img/brownCity.jpg&quot;);">
+
+<ul class="nav nav-tabs nav-fill text-center" style="width: 900;height: 47px;margin: 5px;padding: 0px;background-position: left;">
+    <li class="nav-item" style="width: 280px;"><a class="nav-link" href="#"></a></li>
+    <li class="nav-item"><a class="nav-link active" href="index.html"><strong>Home</strong></a></li>
+    <li class="nav-item"><a class="nav-link" href="ZipCode" style="color: rgb(44,76,111);"><strong>Zip Codes</strong></a></li>
+    <li class="nav-item"><a class="nav-link" href="Weather" style="color: rgb(44,76,111);"><strong>Weather</strong></a></li>
+    <li class="nav-item"><a class="nav-link" href="SocialLocation" style="color: rgb(44,76,111);"><strong>Social Locations</strong></a></li>
+    <li class="nav-item"><a class="nav-link" href="HistoricalEvent" style="color: rgb(44,76,111);"><strong>Historical Events</strong></a></li>
+    <li class="nav-item" style="width: 280px;"><a class="nav-link" href="#"></a></li>
+
+
+
+</ul>
+<!-- End: 1 Row 3 Columns -->
+<!-- Start: 1 Row 3 Columns -->
+<div>
+    <div class="row">
+        <div class="col">
+            <h1 style="padding: 30px;margin: 10;">Historical Event</h1>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 col-xl-6 offset-xl-0">
+                <div><a class="btn btn-primary" data-toggle="collapse" aria-expanded="true" aria-controls="collapse-2" role="button" href="#collapse-2">Hide/Show Table</a>
+                    <div class="collapse show" id="collapse-2">
+                        <div class="table-responsive" >
+
+                            <!-- HANDLEBARS TEMPLATED DISPLAY OF ZIP CODES -->
+
+                            <table id="displayTable">
+                                <thead>
+                                <th>Historical Event ID</th>
+                                <th>Historical Event Name</th>
+                                <th>Start Date </th>
+                                <th>Description</th>
+                                <th>Zip Code</th>
+                                </thead>
+                                <tbody>
+                                {{#each HistoricalEvent}}
+                                    <tr>
+
+                                        <td>{{histID}}</td>
+                                        <td>{{eventName}}</td>
+                                        <td>{{startDate}}</td>
+                                        <td>{{description}}</td>
+                                        <td>{{region}}</td>
+                                    </tr>
+                                {{/each}}
+                                </tbody>
+                            </table>
+
+
+
+                            </table>
+                        </div>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" style="font-size: 25px;"></div>
+        </div>
+    </div>
+</div>
+<!-- End: 1 Row 3 Columns -->
+<!-- Start: 1 Row 3 Columns -->
+<div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Start: addZipCode -->
+                <div class="text-center box" style="height: 417;"><i class="material-icons icon" style="color: rgb(0,0,0);font-size: 60px;">library_add</i>
+                    <p><strong>Add Historical Event</strong></p><a href="#" class="learn-more"></a></div>
+
+                <!--ADD A ZIP CODE-->
+
+                <form id="addhistoricalevent" action="/HistoricalEvent/add" method="post" class="addhistoricalevent">
+                    Historical Event Name :<input type="int" name="eventName" placeholder="Historical Event Name"><br>
+                    <br>
+                    Start Date :<input type="text" name="startDate" placeholder="Start Date: "><br>
+                    Description:<input type="text" name="description" placeholder="Description: "><br>
+
+                    <!--    Weather DropDown for Add section (currently only displays- does not enter values)-->
+                  	Choose a Current Zip Code: <select name="zipCode" id="zipSelectAdd">
+                    <!--  handlebars template for weather-->
+                    {{#each ZipCode}}
+                        <option>{{zipID}}</option>
+                    {{/each}}
+                </select><br>
+                <br>
+                    Choose a Current Social Location: <select name="HistEvent" id="HistEvent">
+                    <!--  handlebars template for weather-->
+                    {{#each SocialLocation}}
+                        <option value="{{socialID}}">{{socialName}}</option>
+                    {{/each}}
+                        
+                </select><br>
+
+                <br>
+                    <button type="submit" class="btn btn-primary addButton" onclick= "inputHistoricalEventValue()" value="Submit"> Submit </button>
+                </form>
+                <br/>
+
+            </div>
+            <div class="col-md-5">
+                <!-- Start: updateZip -->
+                <div class="box" style="height: 475;padding: 5px;margin: 0px;"><i class="material-icons icon" style="color: rgb(0,0,0);font-size: 60px;">edit</i>
+                    <p><strong>Update Historical Event</strong></p>
+                    <div><!--<a class="btn btn-primary" data-toggle="collapse" aria-expanded="true" aria-controls="collapse-3" role="button" href="#collapse-3">Open/Close--></a>
+
+                        <form id="updatehistoricalevent" action="/HistoricalEvent/update" method="post" class="updatehistoricalevent">
+                            Historical Event Name: <input type="text" name="eventName" placeholder="Historical Event Name:"><br>
+                            *required, must match exactly existing Historical Event Name
+                            <br>
+                            <br>
+                            Start Date: <input type="text" name="startDate" placeholder="Start Date:"><br>
+                            Description: <input type="text" name="description" placeholder="Description"><br>
+                           
+                            <br>
+                        </select><br>
+                           <br>
+                            <button type="submit" class="btn btn-primary updateButton" value="Submit"> Submit </button>
+                        </form>
+
+                    </div><a href="#" class="learn-more"></a></div>
+                <!-- End: updateZip -->
+            </div>
+            <div class="col-md-8" style="padding: 9px;"><i class="material-icons icon" style="color: rgb(0,0,0);font-size: 60px;height: 75px;">delete</i>
+                <p style="height: 14px;"><strong>Delete Historical Event Relationships with This Zip Code
+                *must be a zipcode shown in the table above exactly</strong></p>
+               <!-- <div><a class="btn btn-primary" data-toggle="collapse" aria-expanded="true" aria-controls="collapse-4" role="button" href="#collapse-4">Open/Close</a>
+-->
+                    <div>
+                        <form id="deletezip" action="/HistoricalEvent/delete" method="post" class="deletezip">
+                            Zip Code: <input type="int" name="zipID2" placeholder="Zip Code"><br>
+                            <br>
+                            <button type="submit" class="btn btn-primary deleteButton" value="Submit"> Submit </button>
+                        </form>
+
+                    </div>
+                <!--</div>-->
+            </div>
+            
+        </div>
+
+    </div>
+</div>
+<!-- End: 1 Row 3 Columns -->
+<!-- Start: 1 Row 3 Columns -->
+<div>
+    <div class="container"></div>
+</div>
+<!-- End: 1 Row 3 Columns -->
+<!-- Start: 1 Row 3 Columns -->
+<div></div>
+<!-- End: 1 Row 3 Columns -->
+<!-- Start: 1 Row 3 Columns -->
+<div></div>
+<!-- End: 1 Row 3 Columns -->
+<!-- Start: 1 Row 3 Columns -->
+<div></div>
+<!-- End: 1 Row 3 Columns -->
+<!-- Start: 1 Row 3 Columns -->
+<div></div>
+<!-- End: 1 Row 3 Columns -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+

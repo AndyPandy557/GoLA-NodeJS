@@ -1,0 +1,223 @@
+<html>
+
+<!--     SCRIIPT   -->
+
+
+<script >
+    /*
+    This function takes the ZipCode number and inputs into the Social Location value. Since it will come from a pre-populated dropdown, the Weather will have to be generated first
+    */
+    function inputSocialLocationValue() {
+        console.log ("running my function");
+        var x = document.getElementById("zipSelectAdd").value;
+        data.SocialLocation.zipRegion.value = x;
+        var y = document.getElementById("HistEvent").value;
+        data.EventRegion.histEventID.value = y;
+        /*         var z = document.getElementById("eventName").value;
+                 data.HistEvent.eventName.value = z;*/
+    }
+
+    /*This function takes the weatherArea number and inputs into the ZipCode value. Since it will come from a pre-populated dropdown, the Weather will have to be generated first
+    */
+    function updateSocialLocationValue() {
+        console.log ("running my function");
+        var y = document.getElementById("zipSelectUpdate").value;
+        data.SocialLocation.zipRegion.value = y;
+    }
+</script>
+
+<!DOCTYPE html>
+<html style="background-position: bottom;">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Weather</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alfa+Slab+One">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta+Stencil">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Antic">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monoton">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="assets/css/styles.min.css">
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('button.addButton').click( function() {
+                $('form.addzip').submit();
+            });
+            $('button.updateButton').click( function() {
+                $('form.updatezip').submit();
+            });
+        });
+    </script>
+</head>
+
+<body class="text-center" style="background-size: cover;background-repeat: no-repeat;background-position: top;background-image: url(&quot;assets/img/brownCity.jpg&quot;);">
+
+<ul class="nav nav-tabs nav-fill text-center" style="width: 900;height: 47px;margin: 5px;padding: 0px;background-position: left;">
+    <li class="nav-item" style="width: 280px;"><a class="nav-link" href="#"></a></li>
+    <li class="nav-item"><a class="nav-link active" href="index.html"><strong>Home</strong></a></li>
+    <li class="nav-item"><a class="nav-link" href="ZipCode" style="color: rgb(44,76,111);"><strong>Zip Codes</strong></a></li>
+    <li class="nav-item"><a class="nav-link" href="Weather" style="color: rgb(44,76,111);"><strong>Weather</strong></a></li>
+    <li class="nav-item"><a class="nav-link" href="SocialLocation" style="color: rgb(44,76,111);"><strong>Social Locations</strong></a></li>
+    <li class="nav-item"><a class="nav-link" href="HistoricalEvent" style="color: rgb(44,76,111);"><strong>Historical Events</strong></a></li>
+    <li class="nav-item" style="width: 280px;"><a class="nav-link" href="#"></a></li>
+
+</ul>
+
+<!-- End: 1 Row 3 Columns -->
+<!-- Start: 1 Row 3 Columns -->
+<div>
+    <div class="row">
+        <div class="col">
+            <h1 style="padding: 30px;margin: 10;">Social Location</h1>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-3"></div>
+            <div class="col-md-6 col-xl-6 offset-xl-0">
+                <div><a class="btn btn-primary" data-toggle="collapse" aria-expanded="true" aria-controls="collapse-2" role="button" href="#collapse-2">Hide/Show Table</a>
+                    <div class="collapse show" id="collapse-2">
+                        <div class="table-responsive" >
+                            <!-- HANDLEBARS TEMPLATED DISPLAY OF SOCIAL LOCATION -->
+                            <table id="displayTable">
+                                <thead>
+                                <th>Social Location ID</th>
+                                <th>Name </th>
+                                <th>Price Range</th>
+                                <th>Business Type</th>
+                                <th>Street Address</th>
+                                <th>Zip Code</th>
+                                </thead>
+                                <tbody>
+                                {{#each SocialLocation}}
+                                    <tr>
+
+                                        <td>{{socialID}}</td>
+                                        <td>{{socialName}}</td>
+                                        <td>{{priceRange}}</td>
+                                        <td>{{businessType}}</td>
+                                        <td>{{streetAddress}}</td>
+                                        <td>{{zipRegion}}</td>
+                                    </tr>
+                                {{/each}}
+                                </tbody>
+                            </table>
+
+
+
+                            </table>
+                        </div>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" style="font-size: 25px;"></div>
+        </div>
+    </div>
+</div>
+<!-- End: 1 Row 3 Columns -->
+<!-- Start: 1 Row 3 Columns -->
+<div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Start: addSocialLocations -->
+                <div class="text-center box" style="height: 417;"><i class="material-icons icon" style="color: rgb(0,0,0);font-size: 60px;">library_add</i>
+                    <p><strong>Add Social Location</strong></p><a href="#" class="learn-more"></a></div>
+
+                <!--ADD A SOCIAL LOCATION-->
+
+                <form id="addsociallocation" action="/SocialLocation/add" method="post" class="addsociallocation">
+                    Social Location Name: <input type="text" name="socialName" placeholder="Social Location Name:"><br>
+                    <br>
+                    Price Range: <input type="text" name="priceRange" placeholder="$,$$,$$$,$$$$"><br>
+                    <br>
+                    Business Type: <input type="text" name="businessType" placeholder="Business Type:"><br>
+                    <br>
+                    Street Address: <input type="text" name="street" placeholder="Street Address:"><br>
+                    <br>
+
+                    <!--    Weather DropDown for Add section (currently only displays- does not enter values)-->
+                    Choose a Current Zip Code: <select name="zipCode" id="zipSelectAdd">
+                    <!--  handlebars template for weather-->
+                    {{#each ZipCode}}
+                        <option>{{zipID}}</option>
+                    {{/each}}
+                    <option>NULL</option>
+
+                </select><br><br>
+                </select><br>
+
+                    <br>
+                    <button type="submit" class="btn btn-primary addButton" onclick= "inputSocialLocationValue()" value="Submit"> Submit </button>
+                </form>
+                <br/>
+
+            </div>
+            <div class="col-md-6">
+                <!-- Start: updateSocialLocation -->
+                <div class="box" style="height: 475;padding: 5px;margin: 0px;"><i class="material-icons icon" style="color: rgb(0,0,0);font-size: 60px;">edit</i>
+                    <p><strong>Update Social Location</strong></p>
+                    <div><!--<a class="btn btn-primary" data-toggle="collapse" aria-expanded="true" aria-controls="collapse-3" role="button" href="#collapse-3">Open/Close--></a>
+
+                        <form id="updatesociallocation" action="/SocialLocation/update" method="post" class="updatesociallocation">
+                            Social Location Name: <input type="text" name="socialName" placeholder="Social Location Name:"><br>
+                            *required
+                            <br>
+                            <br>
+                            Price Range : <input type="text" name="priceRange" placeholder="$,$$,$$$,$$$$"><br>
+
+                            <!--    Weather DropDown for Update section (currently only displays- does not enter values)-->
+                            <br>
+                            Business Type: <input type="text" name="businessType" placeholder="Business Type:"><br>
+
+                            <br>
+                            Street Address: <input type="text" name="streetAddress" placeholder="Street Address: "><br>
+                            <br>
+
+
+                            Choose a Current Zip Code: <select name="zipCode" id="zipSelectUpdate">
+                            <!--  handlebars template for weather-->
+                            {{#each ZipCode}}
+                                <option>{{zipID}}</option>
+                            {{/each}}
+                            <option>NULL</option>
+                        </select><br>
+
+                            <br>
+                            <button type="submit" class="btn btn-primary updateButton" onclick="updateSocialLocationValue()" value="Submit"> Submit </button>
+                        </form>
+
+                    </div><a href="#" class="learn-more"></a></div>
+                <!-- End: updateZip -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: 1 Row 3 Columns -->
+<!-- Start: 1 Row 3 Columns -->
+<div>
+    <div class="container"></div>
+</div>
+<!-- End: 1 Row 3 Columns -->
+<!-- Start: 1 Row 3 Columns -->
+<div></div>
+<!-- End: 1 Row 3 Columns -->
+<!-- Start: 1 Row 3 Columns -->
+<div></div>
+<!-- End: 1 Row 3 Columns -->
+<!-- Start: 1 Row 3 Columns -->
+<div></div>
+<!-- End: 1 Row 3 Columns -->
+<!-- Start: 1 Row 3 Columns -->
+<div></div>
+<!-- End: 1 Row 3 Columns -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

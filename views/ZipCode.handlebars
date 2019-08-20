@@ -1,0 +1,298 @@
+<html>
+<script >
+
+    function searchZip() {
+        var userString  = document.getElementById('searchString').value;
+
+        $.post('http://localhost:3040/ZipCode/zipsearch',
+                {
+                    name: userString,
+                },
+                function(data, status){
+                    console.log("This is the first size of data"+ data.ZipCode.length)
+                    var dataLength = data.ZipCode.length;
+                    var displayTable = document.getElementById("displayTable").rows.length;
+                    console.log(displayTable)
+                    /*reverse loop to delete the table */
+                    var i;
+                    for (i = displayTable-1; i > 0; i--) {
+                        document.getElementById("displayTable").deleteRow(i);
+                    }
+                    var table = document.getElementById("displayTable");
+
+                    /* loop to insert relevant rows into the table */
+                    var j;
+                    for (j = 0; j < dataLength; j++) {
+                        console.log ("interator "+j);
+                        var row = table.insertRow(j+1);
+                        var cell1 = row.insertCell(0);
+                        var cell2 = row.insertCell(1);
+                        var cell3 = row.insertCell(2);
+
+                        /*display ZipCode areaName and weather ID number*/
+                        cell1.innerHTML = data.ZipCode[j].zipID.toString();
+                        cell2.innerHTML = data.ZipCode[j].areaName.toString();
+                        cell3.innerHTML = data.ZipCode[j].weatherArea
+
+                    }
+
+                });
+        }
+
+        /*
+        This function takes the weatherArea number and inputs into the ZipCode value. Since it will come from a pre-populated dropdown, the Weather will have to be generated first
+        */
+        function inputWeatherValue() {
+
+            var x = document.getElementById("weatherSelect").value;
+            data.ZipCode.weatherArea.value = x;
+        }
+
+        /*
+        This function takes the weatherArea number and inputs into the ZipCode value. Since it will come from a pre-populated dropdown, the Weather will have to be generated first
+        */
+        function updateWeatherValue() {
+
+            var y = document.getElementById("weatherSelectUpdate").value;
+            data.ZipCode.weatherArea.value = y;
+        }
+
+</script>
+
+<!-- START HTML-->
+
+<!DOCTYPE html>
+<html style="background-position: bottom;">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>ZipCode</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alfa+Slab+One">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta+Stencil">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Antic">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monoton">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="assets/css/styles.min.css">
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('button.addButton').click( function() {
+                $('form.addzip').submit();
+            });
+            $('button.updateButton').click( function() {
+                $('form.updatezip').submit();
+            });
+            $('button.deleteButton').click( function() {
+                $('form.deletezip').submit();
+            });
+        });
+    </script>
+</head>
+
+<body class="text-center" style="background-size: cover;background-repeat: no-repeat;background-position: top;background-image: url(&quot;assets/img/brownCity.jpg&quot;);">
+
+<ul class="nav nav-tabs nav-fill text-center" style="width: 900;height: 47px;margin: 5px;padding: 0px;background-position: left;">
+    <li class="nav-item" style="width: 280px;"><a class="nav-link" href="#"></a></li>
+    <li class="nav-item"><a class="nav-link active" href="index.html"><strong>Home</strong></a></li>
+    <li class="nav-item"><a class="nav-link" href="/ZipCode" style="color: rgb(44,76,111);"><strong>Zip Codes</strong></a></li>
+    <li class="nav-item"><a class="nav-link" href="/Weather" style="color: rgb(44,76,111);"><strong>Weather</strong></a></li>
+    <li class="nav-item"><a class="nav-link" href="/SocialLocation" style="color: rgb(44,76,111);"><strong>Social Locations</strong></a></li>
+    <li class="nav-item"><a class="nav-link" href="/HistoricalEvent" style="color: rgb(44,76,111);"><strong>Historical Events</strong></a></li>
+    <li class="nav-item" style="width: 280px;"><a class="nav-link" href="#"></a></li>
+
+
+
+</ul>
+<!-- Start: 1 Row 3 Columns -->
+<div>
+    <div class="container" style="height: 29px;">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <h5 class="text-center d-xl-flex justify-content-xl-center align-items-xl-start" style="height: 13px;">Search By:</h5>
+
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+    </div>
+</div>
+<!-- End: 1 Row 3 Columns -->
+<!-- Start: Navigation with Search -->
+<nav class="navbar navbar-light navbar-expand border-dark shadow-sm d-lg-flex flex-fill justify-content-end align-items-lg-center navigation-clean-search" style="opacity: 1;">
+    <div class="container"><a class="navbar-brand text-center justify-content-center align-items-center" href="#" style="padding: 0px;margin: 0px;width: 4px;height: 43px;"></a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+
+
+        <div
+                class="collapse navbar-collapse text-right d-lg-flex justify-content-lg-end justify-content-xl-center align-items-xl-center" id="navcol-1" style="padding: 0px;width: 1054px;">
+            <ul class="nav navbar-nav"></ul>
+            <form class="form-inline mx-auto" target="_self">
+                <div class="form-group"><label for="search-field"></label>
+
+
+                    <!--  SEARCH FIELD TAKEN FROM SAMPLE APP-->
+                    <form id='search_people'>
+                        <!--- this form does not submit directly, the button handles all the interaction with backend -->
+                        <label> Search:</label>
+
+                        <input class="border rounded-0 border-secondary form-control search-field"
+                               type="search" name="search" placeholder="Search Term" id="searchString" style="margin: 7px;padding: 7px;"><a class="btn btn-light text-left border rounded action-button" role="button" onclick="searchZip()" style="width: 71px;background-position: top;padding: 8px;height: 44px;">Search</a></div>
+                    </form>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+<!-- End: Navigation with Search -->
+<!-- Start: 1 Row 3 Columns -->
+<div>
+    <div class="row">
+        <div class="col">
+            <h1 style="padding: 30px;margin: 10;">Zip Codes</h1>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4 col-xl-4 offset-xl-0">
+                <div><a class="btn btn-primary" data-toggle="collapse" aria-expanded="true" aria-controls="collapse-2" role="button" href="#collapse-2">Hide/Show Table</a>
+                    <div class="collapse show" id="collapse-2">
+                        <div class="table-responsive" >
+
+
+                            <!-- HANDLEBARS TEMPLATED DISPLAY OF ZIP CODES -->
+
+                            <table id="displayTable">
+                                <thead>
+                                <th>Zip Code</th>
+                                <th>Area Name </th>
+                                <th>Weather ID#</th>
+                                </thead>
+                                <tbody>
+                                {{#each ZipCode}}
+                                    <tr>
+
+                                        <td>{{zipID}}</td>
+                                        <td>{{areaName}}</td>
+                                        <td>{{weatherArea}}</td>
+
+                                    </tr>
+                                {{/each}}
+                                </tbody>
+                            </table>
+
+                            </table>
+                        </div>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" style="font-size: 25px;"></div>
+        </div>
+    </div>
+</div>
+<!-- End: 1 Row 3 Columns -->
+<!-- Start: 1 Row 3 Columns -->
+<div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <!-- Start: addZipCode -->
+                <div class="text-center box" style="height: 417;"><i class="material-icons icon" style="color: rgb(0,0,0);font-size: 60px;">library_add</i>
+                    <p><strong>Add Zip Code</strong></p><a href="#" class="learn-more"></a></div>
+
+                <!--ADD A ZIP CODE-->
+
+                <form id="addzip" action="/ZipCode/add" method="post" class="addzip">
+                    Zip Code: <input type="int" name="zipID" placeholder="Zip Code"><br>
+                    <br>
+                    Area Name: <input type="text" name="areaName" placeholder="Area Name"><br>
+
+                    <!--    Weather DropDown for Add section (currently only displays- does not enter values)-->
+                    Choose a Current Temperature: <select name="weatherArea" id="weatherSelect">
+                    <!--  handlebars template for weather-->
+                    {{#each Weather}}
+                        <option value="{{weatherID}}">{{currTemp}}</option>
+                    {{/each}}
+                </select><br>
+
+
+                <br>
+                    <button type="submit" class="btn btn-primary addButton" onclick= "inputWeatherValue()" value="Submit"> Submit </button>
+                </form>
+                <br/>
+
+            </div>
+            <div class="col-md-4">
+                <!-- Start: updateZip -->
+                <div class="box" style="height: 475;padding: 5px;margin: 0px;"><i class="material-icons icon" style="color: rgb(0,0,0);font-size: 60px;">edit</i>
+                    <p><strong>Update Zip Code</strong></p>
+                    <div><!--<a class="btn btn-primary" data-toggle="collapse" aria-expanded="true" aria-controls="collapse-3" role="button" href="#collapse-3">Open/Close--></a>
+
+                        <form id="updatepeople" action="/Zipcode/update" method="post" class="updatezip">
+                            Zip Code: <input type="int" name="zipID" placeholder="Existing Zip Code"><br>
+                            *required
+                            <br>
+                            <br>
+                            Area Name: <input type="text" name="areaName" placeholder="Area Name"><br>
+
+                            <!--    Weather DropDown for Update section (currently only displays- does not enter values)-->
+                            <br>
+                            Choose a Current Temperature: <select name="weatherArea" id = "weatherSelectUpdate" >
+                            <!--  handlebars template for weather-->
+                            {{#each Weather}}
+                                <option value="{{weatherID}}">{{currTemp}}</option>
+                            {{/each}}
+                            </br>
+                            <br>
+                        </select><br>
+                           <br>
+                            <button type="submit" class="btn btn-primary updateButton" onclick="updateWeatherValue()" value="Submit"> Submit </button>
+                        </form>
+
+                    </div><a href="#" class="learn-more"></a></div>
+                <!-- End: updateZip -->
+            </div>
+            <div class="col-md-4" style="padding: 9px;"><i class="material-icons icon" style="color: rgb(0,0,0);font-size: 60px;height: 75px;">delete</i>
+                <p style="height: 14px;"><strong>Delete Zip Code</strong></p>
+               <!-- <div><a class="btn btn-primary" data-toggle="collapse" aria-expanded="true" aria-controls="collapse-4" role="button" href="#collapse-4">Open/Close</a>
+-->
+                    <div>
+                        <form id="deletezip" action="/Zipcode/delete" method="post" class="deletezip">
+                            Zip Code: <input type="int" name="zipID" placeholder="Zip Code"><br>
+                            <br>
+                            <button type="submit" class="btn btn-primary deleteButton" value="Submit"> Submit </button>
+                        </form>
+
+                    </div>
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: 1 Row 3 Columns -->
+<!-- Start: 1 Row 3 Columns -->
+<div>
+    <div class="container"></div>
+</div>
+<!-- End: 1 Row 3 Columns -->
+<!-- Start: 1 Row 3 Columns -->
+<div></div>
+<!-- End: 1 Row 3 Columns -->
+<!-- Start: 1 Row 3 Columns -->
+<div></div>
+<!-- End: 1 Row 3 Columns -->
+<!-- Start: 1 Row 3 Columns -->
+<div></div>
+<!-- End: 1 Row 3 Columns -->
+<!-- Start: 1 Row 3 Columns -->
+<div></div>
+<!-- End: 1 Row 3 Columns -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+
