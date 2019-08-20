@@ -4,3 +4,7 @@ Andrew Nguyen and Christine Bruton are Los Angeles natives with a passion for so
 
 Notes:
 - the project was developed using a mySQL database and so a database connection including the host, user, password, and database are required in a .env file. A template_env_var.env is provided as reference.
+
+![Screenshot](database_schema_1.jpg)
+
+![Screenshot](database_schema_2.png)
